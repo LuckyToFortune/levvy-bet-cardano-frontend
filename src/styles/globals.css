@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  background: linear-gradient(to bottom, #0c0808, #110c0c);
+  color: white;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Webkit browsers */
+}
+
+/* Remove the default appearance of the spin buttons */
+.custom-number-input {
+  -webkit-appearance: none; /* Removes default styling */
+  -moz-appearance: textfield; /* For Firefox */
+  appearance: textfield;
+}
+
+/* Target the up-down spin buttons for Chrome, Edge, Safari */
+.custom-number-input::-webkit-inner-spin-button {
+  background-color: #1a1a1a; /* Set the desired background color */
+  color: black; /* Set the arrow color */
+  border-radius: 2px; /* Optional: rounded corners */
+  border: none; /* Remove the border */
+}
+
+/* For additional customization (outer spin button, if applicable) */
+.custom-number-input::-webkit-outer-spin-button {
+  background-color: #1a1a1a;
+  color: black;
+  border: none;
+}
+
+/* Spin buttons for Firefox */
+.custom-number-input[type="number"] {
+  -moz-appearance: textfield; /* Ensures consistency in Firefox */
+}
