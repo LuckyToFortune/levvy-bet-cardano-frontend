@@ -80,7 +80,7 @@ const CreateBetModalContent: React.FC = () => {
           Category
         </label>
         <select
-          className="bg-stone-800 p-2 rounded w-full text-white"
+          className="border-gray-500 bg-stone-800 p-2 border rounded-xl w-full text-white"
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
         >
@@ -92,13 +92,14 @@ const CreateBetModalContent: React.FC = () => {
         </select>
       </div>
 
-      {/* Dynamic Fields */}
       {currentCategory?.fields.map((field) => (
         <div className="mb-4" key={field.label}>
-          <label className="block mb-2 text-gray-400">{field.label}</label>
+          <label className="block mb-2 font-semibold text-gray-200">
+            {field.label}
+          </label>
           {field.type === "select" && field.options ? (
             <select
-              className="bg-stone-800 p-2 rounded w-full text-white"
+              className="border-gray-500 bg-stone-800 p-2 border rounded-xl w-full text-white"
               value={formValues[field.label] || ""}
               onChange={(e) => handleFieldChange(field.label, e.target.value)}
             >
@@ -111,7 +112,7 @@ const CreateBetModalContent: React.FC = () => {
           ) : field.type === "input" ? (
             <input
               type="text"
-              className="bg-stone-800 p-2 rounded w-full text-white"
+              className="border-gray-500 bg-stone-800 p-2 border rounded-xl w-full text-white"
               value={formValues[field.label] || field.defaultValue || ""}
               onChange={(e) => handleFieldChange(field.label, e.target.value)}
             />
