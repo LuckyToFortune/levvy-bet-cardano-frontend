@@ -4,12 +4,14 @@ import Card2 from "../card/Card2";
 const Card2Section = () => {
   const cards = [
     {
+      id: 1,
       imageURL: "/img/man1.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi", "Mbappe", "Salah"],
       infos: [{ Volumn: " 1,282, 192 ADA" }, { Date: "Nov 4, 2024" }],
     },
     {
+      id: 2,
       imageURL: "/img/man2.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi", "Mbappe"],
@@ -20,6 +22,7 @@ const Card2Section = () => {
       ],
     },
     {
+      id: 3,
       imageURL: "/img/man1.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi", "Mbappe", "Salah"],
@@ -30,18 +33,21 @@ const Card2Section = () => {
       ],
     },
     {
+      id: 4,
       imageURL: "/img/man2.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi", "Mbappe"],
       infos: [{ Volumn: " 1,282, 192 ADA" }, { Date: "Nov 4, 2024" }],
     },
     {
+      id: 5,
       imageURL: "/img/man1.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi", "Mbappe", "Salah"],
       infos: [{ Volumn: " 1,282, 192 ADA" }, { Date: "Nov 4, 2024" }],
     },
     {
+      id: 6,
       imageURL: "/img/man2.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi"],
@@ -52,6 +58,7 @@ const Card2Section = () => {
       ],
     },
     {
+      id: 7,
       imageURL: "/img/man2.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi"],
@@ -62,12 +69,14 @@ const Card2Section = () => {
       ],
     },
     {
+      id: 8,
       imageURL: "/img/man2.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi", "Mbappe"],
       infos: [{ Volumn: " 1,282, 192 ADA" }, { Date: "Nov 4, 2024" }],
     },
     {
+      id: 9,
       imageURL: "/img/man1.png",
       description: "Popular Vote Winner",
       options: ["Ronaldo", "Messi", "Mbappe", "Salah"],
@@ -81,6 +90,7 @@ const Card2Section = () => {
         <div className="h-64">
           <Card2
             key={index}
+            id={card.id.toString()}
             imageURL={card.imageURL}
             description={card.description}
             options={card.options}

@@ -1,9 +1,5 @@
 import type { Metadata } from "next";
-// import { Inter } from "next/font/google";
-import { Bounce, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import AppProvider from "@/providers/AppProvider";
-// const inter = Inter({ subsets: ["latin"] });
+import RootClientLayout from "./RootClientLayout";
 
 export const metadata: Metadata = {
   title: "Levvy",
@@ -17,21 +13,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <AppProvider>{children}</AppProvider>
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover={false}
-          theme="dark"
-          transition={Bounce}
-        />
+      <body className="bg-cover bg-no-repeat bg-center min-h-screen">
+        <RootClientLayout>{children}</RootClientLayout>
       </body>
     </html>
   );

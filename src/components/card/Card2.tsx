@@ -1,11 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import PrimaryButton from "../button/PrimaryButton";
 import * as Slider from "@radix-ui/react-slider";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 interface Card2Props {
+  id: string;
   imageURL: string;
   description: string;
   options: string[];
@@ -13,11 +15,13 @@ interface Card2Props {
 }
 
 const Card2: React.FC<Card2Props> = ({
+  id,
   imageURL,
   description,
   options,
   infos,
 }) => {
+  const router = useRouter();
   const [isBetting, setIsBetting] = useState(false);
   const [value, setValue] = useState<number>(100);
   const [order, setOrder] = useState(0);
@@ -29,7 +33,8 @@ const Card2: React.FC<Card2Props> = ({
     setIsBetting(true); // Show the second type of content
   };
 
-  const handleCloseBetting = () => {
+  const handleCloseBetting = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
     setIsBetting(false); // Return to the first card
     setOrder(0);
     setOption("");
@@ -41,6 +46,7 @@ const Card2: React.FC<Card2Props> = ({
 
   const handleSubmit = () => {
     console.log("Run betting with value:", value, "ADA on option:", option);
+    toast.success(`Run betting ${value} ADA on ${option}`);
   };
 
   const num = options.length;
@@ -178,7 +184,10 @@ const Card2: React.FC<Card2Props> = ({
 
   return (
     <div className="flex flex-col justify-between items-stretch border-gray-500 border rounded-xl w-full h-full overflow-hidden">
-      <div className="z-1 sticky flex flex-row justify-between items-center gap-4 border-stone-900 hover:bg-transparent bg-opacity-50 p-2 border rounded-t-md w-full h-16 cursor-pointer">
+      <div
+        className="z-1 sticky flex flex-row justify-between items-center gap-4 border-stone-900 hover:bg-transparent bg-opacity-50 p-2 border rounded-t-md w-full h-16 cursor-pointer"
+        onClick={() => router.push(id)}
+      >
         <div className="flex justify-center items-center gap-4">
           <div className="flex rounded-md size-14">
             <Image
@@ -192,10 +201,10 @@ const Card2: React.FC<Card2Props> = ({
           <div className="flex items-start p-1">{description}</div>
         </div>
         {isBetting && (
-          <div className="flex justify-center items-start bg-stone-900 mr-4 rounded text-stone-700 hover:text-stone-500 size-10">
+          <div className="z-1 flex justify-center items-start bg-stone-900 mr-4 rounded text-stone-700 hover:text-stone-500 size-10">
             <button
               className="flex justify-center items-start px-2 rounded-full text-3xl"
-              onClick={handleCloseBetting}
+              onClick={(e) => handleCloseBetting(e)}
             >
               &times;
             </button>
