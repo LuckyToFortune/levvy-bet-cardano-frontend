@@ -1,51 +1,74 @@
 import React, { useState } from "react";
 import PrimaryButton from "../../button/PrimaryButton";
 
-type Game = {
-  name: string;
-  image: string;
-};
-
-type Games = {
-  [key: string]: Game[];
-};
-
 const mockData = {
-  categories: ["Sports", "E-Sports", "Politics", "Movies"],
-  sports: {
-    Sports: ["Soccer", "Basketball", "Tennis"],
-    "E-Sports": ["CS:GO", "League of Legends", "Valorant"],
-  },
-  games: {
-    Soccer: [
-      { name: "Liverpool vs Manchester City", image: "soccer1.jpg" },
-      { name: "Chelsea vs Arsenal", image: "soccer2.jpg" },
-      { name: "Barcelona vs Real Madrid", image: "soccer3.jpg" },
-    ],
-    Basketball: [
-      { name: "Lakers vs Warriors", image: "basketball1.jpg" },
-      { name: "Heat vs Celtics", image: "basketball2.jpg" },
-    ],
-  } as Games,
-  fees: {
-    networkFee: 0.57,
-    platformFee: 0.23,
-    securityDeposit: 200,
-  },
+  categories: [
+    {
+      name: "Sports",
+      fields: [
+        {
+          type: "select",
+          label: "Sport",
+          options: ["Soccer", "Basketball", "Tennis"],
+        },
+        {
+          type: "select",
+          label: "Game",
+          options: ["Liverpool vs Manchester City", "Chelsea vs Arsenal"],
+        },
+        {
+          type: "input",
+          label: "Bet Title",
+          defaultValue: "Will Liverpool win?",
+        },
+      ],
+    },
+    {
+      name: "Music",
+      fields: [
+        {
+          type: "select",
+          label: "Campion",
+          options: ["2024 Male Campion", "2024 Female Campion"],
+        },
+        {
+          type: "input",
+          label: "Question",
+          defaultValue: "Will singer A win?",
+        },
+      ],
+    },
+  ],
 };
 
-type SportsKeys = keyof typeof mockData.sports; // Define valid keys for 'sports'
+type Field = {
+  type: "select" | "input";
+  label: string;
+  options?: string[]; // For select fields
+  defaultValue?: string; // For input fields
+};
+
+type Category = {
+  name: string;
+  fields: Field[];
+};
 
 const CreateBetModalContent: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] =
-    useState<SportsKeys>("Sports"); // Constrain to valid keys
-  const [selectedSport, setSelectedSport] = useState("Soccer");
-  const [selectedGame, setSelectedGame] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(
+    mockData.categories[0].name
+  );
+  const [formValues, setFormValues] = useState<Record<string, string>>({});
 
-  const { categories, sports, games, fees } = mockData;
+  const handleFieldChange = (fieldLabel: string, value: string) => {
+    setFormValues((prev) => ({
+      ...prev,
+      [fieldLabel]: value,
+    }));
+  };
 
-  // Safely access games based on the selected sport
-  const currentGames = games[selectedSport] || [];
+  const currentCategory = mockData.categories.find(
+    (category) => category.name === selectedCategory
+  );
 
   return (
     <div>
@@ -59,90 +82,60 @@ const CreateBetModalContent: React.FC = () => {
         <select
           className="bg-stone-800 p-2 rounded w-full text-white"
           value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value as SportsKeys)} // Type assertion here
+          onChange={(e) => setSelectedCategory(e.target.value)}
         >
-          {categories.map((category) => (
-            <option key={category} value={category}>
-              {category}
+          {mockData.categories.map((category) => (
+            <option key={category.name} value={category.name}>
+              {category.name}
             </option>
           ))}
         </select>
       </div>
 
-      {/* Sport Dropdown */}
-      <div className="mb-4">
-        <label className="block mb-2 text-gray-400">Sport</label>
-        <select
-          className="bg-stone-800 p-2 rounded w-full text-white"
-          value={selectedSport}
-          onChange={(e) => setSelectedSport(e.target.value)}
-        >
-          {sports[selectedCategory]?.map((sport) => (
-            <option key={sport} value={sport}>
-              {sport}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Game Dropdown with Images */}
-      <div className="mb-4">
-        <label className="block mb-2 text-gray-400">Game</label>
-        <div className="gap-4 grid grid-cols-2">
-          {currentGames.map((game) => (
-            <div
-              key={game.name}
-              className={`p-2 rounded bg-stone-800 text-white cursor-pointer ${
-                selectedGame === game.name ? "border border-orange-500" : ""
-              }`}
-              onClick={() => setSelectedGame(game.name)}
+      {/* Dynamic Fields */}
+      {currentCategory?.fields.map((field) => (
+        <div className="mb-4" key={field.label}>
+          <label className="block mb-2 text-gray-400">{field.label}</label>
+          {field.type === "select" && field.options ? (
+            <select
+              className="bg-stone-800 p-2 rounded w-full text-white"
+              value={formValues[field.label] || ""}
+              onChange={(e) => handleFieldChange(field.label, e.target.value)}
             >
-              <img
-                src={game.image}
-                alt={game.name}
-                className="mb-2 rounded w-full h-16 object-cover"
-              />
-              <span>{game.name}</span>
-            </div>
-          ))}
+              {field.options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          ) : field.type === "input" ? (
+            <input
+              type="text"
+              className="bg-stone-800 p-2 rounded w-full text-white"
+              value={formValues[field.label] || field.defaultValue || ""}
+              onChange={(e) => handleFieldChange(field.label, e.target.value)}
+            />
+          ) : null}
         </div>
-      </div>
-
-      {/* Title Input */}
-      <div className="mb-6">
-        <label className="block mb-2 text-gray-400">Title</label>
-        <input
-          type="text"
-          value={`Will ${selectedGame || "the game"} end as expected?`}
-          className="bg-stone-800 p-2 rounded w-full text-white"
-          readOnly
-        />
-      </div>
+      ))}
 
       {/* Fees Section */}
       <div className="border-stone-700 py-4 border-t">
         <div className="flex justify-between mb-2 text-gray-400">
           <span>Network Fee</span>
-          <span>{fees.networkFee} ADA</span>
+          <span>0.57 ADA</span>
         </div>
         <div className="flex justify-between mb-2 text-gray-400">
           <span>Platform Fee</span>
-          <span>{fees.platformFee} ADA</span>
+          <span>0.23 ADA</span>
         </div>
         <div className="flex justify-between mb-2 text-gray-400">
           <span>Refundable Security Deposit</span>
-          <span>{fees.securityDeposit} ADA</span>
+          <span>200 ADA</span>
         </div>
         <div className="flex justify-between font-bold text-white">
           <span>Total Fees</span>
-          <span>
-            {(
-              fees.networkFee +
-              fees.platformFee +
-              fees.securityDeposit
-            ).toFixed(2)}{" "}
-            ADA
-          </span>
+          <span>200.8 ADA</span>
         </div>
       </div>
 

@@ -192,9 +192,9 @@ const Card2: React.FC<Card2Props> = ({
           <div className="flex items-start p-1">{description}</div>
         </div>
         {isBetting && (
-          <div className="flex justify-center items-center bg-stone-900 mr-4 rounded text-stone-700 hover:text-stone-500 size-10">
+          <div className="flex justify-center items-start bg-stone-900 mr-4 rounded text-stone-700 hover:text-stone-500 size-10">
             <button
-              className="flex items-center px-2 rounded-full text-3xl"
+              className="flex justify-center items-start px-2 rounded-full text-3xl"
               onClick={handleCloseBetting}
             >
               &times;
