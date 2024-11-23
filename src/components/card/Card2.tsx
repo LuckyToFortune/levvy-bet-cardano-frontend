@@ -194,7 +194,7 @@ const Card2: React.FC<Card2Props> = ({
         {isBetting && (
           <div className="flex justify-center items-center bg-stone-900 mr-4 rounded text-stone-700 hover:text-stone-500 size-10">
             <button
-              className="flex items-end px-2 rounded-full text-3xl"
+              className="flex items-center px-2 rounded-full text-3xl"
               onClick={handleCloseBetting}
             >
               &times;
